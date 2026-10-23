@@ -1,0 +1,424 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>app.enosistech.encode2</groupId>
+	<artifactId>Encode2</artifactId>
+	<version>0.1.0</version>
+	<name>Encode2</name>
+	<description>Enosis Code IDE V2</description>
+
+	<properties>
+		<maven.compiler.release>27</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<javafx.version>25</javafx.version>
+		<javafx.platform>linux</javafx.platform>
+
+		<app.module>Encode2</app.module>
+		<app.main>com.github.enosisTech.Encode</app.main>
+		<dist>${project.build.directory}/dist</dist>
+		<modues.dir>${project.build.directory}/modules}</modues.dir>
+
+		<jdk.linux>${project.basedir}/jdk/linux/x64/jmods</jdk.linux>
+		<jdk.win>${project.basedir}/jdk/windows/x64/jmods</jdk.win>
+		<jdk.macarm>${project.basedir}/jdk/mac/aarch64/Contents/Home/jmods</jdk.macarm>
+
+		<jfx.linux>${project.basedir}/jmods/javafx/linux/x64</jfx.linux>
+		<jfx.win>${project.basedir}/jmods/javafx/windows/x64</jfx.win>
+		<jfx.mac>${project.basedir}/jmods/javafx/mac/x64</jfx.mac>
+		<jfx.macarm>${project.basedir}/jmods/javafx/mac/aarch64</jfx.macarm>
+
+		<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-base</artifactId>
+			<version>25</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>25</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-graphics</artifactId>
+			<version>25</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>25</version>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+
+		<profile>
+
+			<id>host-linux</id>
+
+			<activation>
+				<os>
+					<family>unix</family>
+					<name>Linux</name>
+				</os>
+			</activation>
+
+			<properties>
+				<javafx.platform>linux</javafx.platform>
+				<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>host-win</id>
+
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+
+			<properties>
+				<javafx.platform>win</javafx.platform>
+				<jlink.exe>${project.basedir}/jdk/windows/x64/bin/jlink.exe</jlink.exe>
+			</properties>
+
+		</profile>
+
+		<profile>
+
+			<id>host-mac-arm</id>
+			<activation>
+				<os>
+					<family>mac</family>
+					<arch>aarch64</arch>
+				</os>
+			</activation>
+			<properties>
+				<javafx.platform>mac-aarch64</javafx.platform>
+
+				<jlink.exe>
+					${project.basedir}/jdk/mac/aarch64/Contents/Home/bin/jlink
+				</jlink.exe>
+			</properties>
+
+		</profile>
+
+	</profiles>
+
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.8.1</version>
+
+				<executions>
+					<execution>
+
+						<id>copy-deps</id>
+						<phase>prepare-package</phase>
+
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+
+						<configuration>
+							<outputDirectory>${modules.dir}</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+
+					</execution>
+				</executions>
+
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
+
+				<configuration>
+					<executable>${jlink.exe}</executable>
+				</configuration>
+
+				<executions>
+
+					<!-- **
+					* 
+					* Create executable for Linux
+					*	
+					-->
+
+					<execution>
+
+						<id>jlink-linux</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<arguments>
+
+								<argument>--module-path</argument>
+
+								<argument>
+									${jdk.linux}${path.separator}${jfx.linux}${path.separator}${project.build.directory}/${project.build.finalName}.jar${path.separator}${modules.dir}
+								</argument>
+
+								<argument>--add-modules</argument>
+								<argument>${app.module}</argument>
+								<argument>--launcher</argument>
+
+								<argument>
+									${app.module}=${app.module}/${app.main}
+								</argument>
+
+								<argument>
+									--add-options=--enable-native-access=javafx.graphics
+								</argument>
+
+								<argument>--strip-debug</argument>
+								<argument>--no-header-files</argument>
+								<argument>--no-man-pages</argument>
+								<argument>--compress=zip-6</argument>
+								<argument>--output</argument>
+								<argument>${dist}/linux/x64</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<!-- **
+					* 
+					* Create executable for Windows
+					*	
+					-->
+
+					<execution>
+
+						<id>jlink-windows</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<arguments>
+
+								<argument>--module-path</argument>
+
+								<argument>
+									${jdk.win}${path.separator}${jfx.win}${path.separator}${project.build.directory}/${project.build.finalName}.jar${path.separator}${modules.dir}
+								</argument>
+
+								<argument>--add-modules</argument>
+								<argument>${app.module}</argument>
+								<argument>--launcher</argument>
+
+								<argument>
+									${app.module}=${app.module}/${app.main}
+								</argument>
+
+								<argument>
+									--add-options=--enable-native-access=javafx.graphics
+								</argument>
+
+								<argument>--strip-debug</argument>
+								<argument>--no-header-files</argument>
+								<argument>--no-man-pages</argument>
+								<argument>--compress=zip-6</argument>
+								<argument>--output</argument>
+								<argument>${dist}/windows/x64</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<!-- **
+					* 
+					* Create executable for MacOS
+					*	
+					-->
+
+					<execution>
+
+						<id>jlink-mac</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<arguments>
+
+								<argument>--module-path</argument>
+
+								<argument>
+									${jdk.macarm}${path.separator}${jfx.macarm}${path.separator}${project.build.directory}/${project.build.finalName}.jar${path.separator}${modules.dir}
+								</argument>
+
+								<argument>--add-modules</argument>
+								<argument>${app.module}</argument>
+								<argument>--launcher</argument>
+
+								<argument>
+									${app.module}=${app.module}/${app.main}
+								</argument>
+
+								<argument>
+									--add-options=--enable-native-access=javafx.graphics
+								</argument>
+
+								<!--<argument>\-\-strip-debug</argument>-->
+								<argument>--no-header-files</argument>
+								<argument>--no-man-pages</argument>
+								<argument>--compress=zip-6</argument>
+								<argument>--output</argument>
+								<argument>${dist}/mac/aarch64</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<!-- 
+					**********************************
+					***	Create a Package for linux ***
+					**********************************
+					-->
+
+					<execution>
+
+						<id>pack-linux</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>tar</executable>
+
+							<arguments>
+
+								<argument>-czf</argument>
+
+								<argument>
+									${dist}/AccountingSoftware-linux-x64.tar.gz
+								</argument>
+
+								<argument>-C</argument>
+								<argument>${dist}</argument>
+								<argument>linux/x64</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<!-- 
+					************************************
+					***	Create a Package for Windows ***
+					************************************
+					-->
+
+					<execution>
+
+						<id>pack-windows</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${java.home}/bin/jar</executable>
+
+							<arguments>
+
+								<argument>--create</argument>
+								<argument>--no-manifest</argument>
+								<argument>--file</argument>
+
+								<argument>
+									${dist}/AccountingSoftware-windows-x64.zip</argument>
+								<argument>-C</argument>
+
+								<argument>${dist}</argument>
+								<argument>windows/x64</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<execution>
+						
+						<id>pack-mac-aarch64</id>
+						<phase>package</phase>
+						
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						
+						<configuration>
+						
+							<executable>tar</executable>
+						
+							<arguments>
+								<argument>-czf</argument>
+								
+								<argument>
+									${dist}/AccountingSoftware-mac-aarch64.tar.gz
+								</argument>
+								
+								<argument>-C</argument>
+								<argument>${dist}</argument>
+								<argument>mac/aarch64</argument>
+							
+							</arguments>
+						
+						</configuration>
+						
+					</execution>
+
+				</executions>
+
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
