@@ -13,4 +13,9 @@
 
 .project
 .classpath
+<<<<<<< HEAD
 org.eclipse.*
+=======
+org.eclipse.*
+/bin/
+>>>>>>> 840ab0ff177479e07a7707911a93ee37fe77b148
