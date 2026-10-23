@@ -11,4 +11,6 @@
 #############
 
 .project
+.classpath
 org.eclipse.*
+/bin/
