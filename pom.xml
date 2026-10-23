@@ -10,14 +10,14 @@
 	<description>Enosis Code IDE V2</description>
 
 	<properties>
-		<maven.compiler.release>27</maven.compiler.release>
+		<maven.compiler.release>25</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<javafx.version>25</javafx.version>
 		<javafx.platform>linux</javafx.platform>
 
 		<app.module>Encode2</app.module>
-		<app.main>com.github.enosisTech.Encode</app.main>
+		<app.main>com.github.enosisTech.Encode2</app.main>
 		<dist>${project.build.directory}/dist</dist>
 		<modues.dir>${project.build.directory}/modules}</modues.dir>
 
@@ -333,7 +333,7 @@
 								<argument>-czf</argument>
 
 								<argument>
-									${dist}/AccountingSoftware-linux-x64.tar.gz
+									${dist}/Encode2-linux-x64.tar.gz
 								</argument>
 
 								<argument>-C</argument>
@@ -372,7 +372,7 @@
 								<argument>--file</argument>
 
 								<argument>
-									${dist}/AccountingSoftware-windows-x64.zip</argument>
+									${dist}/Encode2-windows-x64.zip</argument>
 								<argument>-C</argument>
 
 								<argument>${dist}</argument>
@@ -401,7 +401,7 @@
 								<argument>-czf</argument>
 								
 								<argument>
-									${dist}/AccountingSoftware-mac-aarch64.tar.gz
+									${dist}/Encode2-mac-aarch64.tar.gz
 								</argument>
 								
 								<argument>-C</argument>
