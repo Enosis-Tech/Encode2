@@ -5,10 +5,12 @@
 /jdk/
 /jmods/
 /target/
+/bin/
 
 #############
 ### Files ###
 #############
 
 .project
+.classpath
 org.eclipse.*
