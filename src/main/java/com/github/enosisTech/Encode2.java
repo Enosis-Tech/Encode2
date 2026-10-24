@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 public class Encode2 extends Application {
 	
-	@SuppressWarnings("unused")
 	private HostServices hostServices;
 	
 	private Module module = Encode2.class.getModule();
@@ -30,12 +29,16 @@ public class Encode2 extends Application {
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Window.fxml"));
 		
+		// Get the root of the scene
 		Parent root = loader.load();
 		
+		// Get the controller of the Menu Bar
 		MenuBarController menuBarController = (MenuBarController) loader.getNamespace().get("MenuBarController");
 		
-		menuBarController.setHostServices(hostServices);
+		menuBarController.setHostServices(hostServices); // Get the hostServices for support function on
+														 // Menu Help
 		
+		// Create Scene
 		Scene scene = new Scene(root, 640, 480);
 		primaryStage.setTitle("Encode2");
 		primaryStage.setScene(scene);
