@@ -5,6 +5,7 @@
 /jdk/
 /jmods/
 /target/
+/bin/
 
 #############
 ### Files ###
