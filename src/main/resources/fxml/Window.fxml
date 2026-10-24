@@ -7,5 +7,5 @@
 	<top>
 		<fx:include fx:id="MenuBar" source="MenuBar.fxml"/>
 	</top>
-
+<left></left>
 </BorderPane>
