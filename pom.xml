@@ -31,6 +31,7 @@
 		<jfx.macarm>${project.basedir}/jmods/javafx/mac/aarch64</jfx.macarm>
 
 		<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
+		<jpackage.exe>${project.basedir}/jdk/linux/x64/bin/jpackage</jpackage.exe>
 	</properties>
 
 	<dependencies>
@@ -77,6 +78,7 @@
 			<properties>
 				<javafx.platform>linux</javafx.platform>
 				<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
+				<jpackage.exe>${project.basedir}/jdk/linux/x64/bin/jpackage</jpackage.exe>
 			</properties>
 
 		</profile>
@@ -94,6 +96,10 @@
 			<properties>
 				<javafx.platform>win</javafx.platform>
 				<jlink.exe>${project.basedir}/jdk/windows/x64/bin/jlink.exe</jlink.exe>
+
+				<jpackage.exe>
+					${project.basedir}/jdk/windows/x64/bin/jpackage.exe
+				</jpackage.exe>
 			</properties>
 
 		</profile>
@@ -113,6 +119,10 @@
 				<jlink.exe>
 					${project.basedir}/jdk/mac/aarch64/Contents/Home/bin/jlink
 				</jlink.exe>
+
+				<jpackage.exe>
+					${project.basedir}/jdk/mac/aarch64/Contents/Home/bin/jpackage
+				</jpackage.exe>
 			</properties>
 
 		</profile>
@@ -153,16 +163,12 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>3.5.0</version>
 
-				<configuration>
-					<executable>${jlink.exe}</executable>
-				</configuration>
-
 				<executions>
 
-					<!-- **
-					* 
-					* Create executable for Linux
-					*	
+					<!--
+					***********************************
+					***	Create executable for Linux ***
+					***********************************
 					-->
 
 					<execution>
@@ -175,6 +181,8 @@
 						</goals>
 
 						<configuration>
+
+							<executable>${jlink.exe}</executable>
 
 							<arguments>
 
@@ -209,10 +217,10 @@
 
 					</execution>
 
-					<!-- **
-					* 
-					* Create executable for Windows
-					*	
+					<!--
+					*************************************
+					***	Create executable for Windows ***
+					*************************************
 					-->
 
 					<execution>
@@ -225,6 +233,8 @@
 						</goals>
 
 						<configuration>
+
+							<executable>${jlink.exe}</executable>
 
 							<arguments>
 
@@ -259,15 +269,15 @@
 
 					</execution>
 
-					<!-- **
-					* 
-					* Create executable for MacOS
-					*	
+					<!--
+					***********************************
+					***	Create executable for MacOS ***
+					***********************************
 					-->
 
 					<execution>
 
-						<id>jlink-mac</id>
+						<id>jlink-mac-aarch64</id>
 						<phase>package</phase>
 
 						<goals>
@@ -275,6 +285,8 @@
 						</goals>
 
 						<configuration>
+
+							<executable>${jlink.exe}</executable>
 
 							<arguments>
 
@@ -296,7 +308,7 @@
 									--add-options=--enable-native-access=javafx.graphics
 								</argument>
 
-								<!--<argument>\-\-strip-debug</argument>-->
+								<argument>--strip-debug</argument>
 								<argument>--no-header-files</argument>
 								<argument>--no-man-pages</argument>
 								<argument>--compress=zip-6</argument>
@@ -309,16 +321,280 @@
 
 					</execution>
 
+					<!--
+					***********************************
+					***	Create a Packages for Linux ***
+					***********************************
+					-->
+
+					<execution>
+
+						<id>jpackage-linux-deb</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>deb</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/linux/x64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/linux</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<execution>
+
+						<id>jpackage-linux-rpm</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>rpm</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/linux/x64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/linux</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+
+					<!--
+					*************************************
+					***	Create a Packages for Windows ***
+					*************************************
+					-->
+
+					<execution>
+
+						<id>jpackage-windows-msi</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>msi</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/windows/x64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/windows</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<execution>
+
+						<id>jpackage-widnows-exe</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>exe</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/windows/x64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/windows</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+					
+					<!--
+					***********************************
+					***	Create a Packages for MacOS ***
+					***********************************
+					-->
+
+					<execution>
+
+						<id>jpackage-mac-dmg</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>dmg</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/mac/aarch64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/mac</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
+					<execution>
+
+						<id>jpackage-mac-pkg</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+
+							<executable>${jpackage.exe}</executable>
+
+							<arguments>
+
+								<argument>--type</argument>
+								<argument>exe</argument>
+
+								<argument>--name</argument>
+								<argument>Encode2</argument>
+
+								<argument>--app-version</argument>
+								<argument>${project.version}</argument>
+
+								<argument>--vendor</argument>
+								<argument>Enosis Tehcnology</argument>
+
+								<argument>--runtime-image</argument>
+								<argument>${dist}/mac/aarch64</argument>
+
+								<argument>--module</argument>
+								<argument>${app.module}/${app.main}</argument>
+
+								<argument>--dest</argument>
+								<argument>${dist}/package/mac</argument>
+
+							</arguments>
+
+						</configuration>
+
+					</execution>
+
 					<!-- 
 					**********************************
-					***	Create a Package for linux ***
+					***	Compress Packages of Linux ***
 					**********************************
 					-->
 
 					<execution>
 
-						<id>pack-linux</id>
-						<phase>package</phase>
+						<id>compress-packages-linux</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -333,12 +609,12 @@
 								<argument>-czf</argument>
 
 								<argument>
-									${dist}/Encode2-linux-x64.tar.gz
+									${dist}/compress/Encode2-Linux.tar.gz
 								</argument>
 
 								<argument>-C</argument>
 								<argument>${dist}</argument>
-								<argument>linux/x64</argument>
+								<argument>package/linux</argument>
 
 							</arguments>
 
@@ -348,14 +624,13 @@
 
 					<!-- 
 					************************************
-					***	Create a Package for Windows ***
+					***	Compress Packages of Windows ***
 					************************************
 					-->
 
 					<execution>
 
-						<id>pack-windows</id>
-						<phase>package</phase>
+						<id>compress-packages-windows</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -372,11 +647,13 @@
 								<argument>--file</argument>
 
 								<argument>
-									${dist}/Encode2-windows-x64.zip</argument>
+									${dist}/compress/Encode2-Windows.zip
+								</argument>
+
 								<argument>-C</argument>
 
 								<argument>${dist}</argument>
-								<argument>windows/x64</argument>
+								<argument>package/windows</argument>
 
 							</arguments>
 
@@ -384,34 +661,39 @@
 
 					</execution>
 
+					<!-- 
+					**********************************
+					***	Compress Packages of MacOS ***
+					**********************************
+					-->
+
 					<execution>
-						
-						<id>pack-mac-aarch64</id>
-						<phase>package</phase>
-						
+
+						<id>compress-packages-mac</id>
+
 						<goals>
 							<goal>exec</goal>
 						</goals>
-						
+
 						<configuration>
-						
+
 							<executable>tar</executable>
-						
+
 							<arguments>
 								<argument>-czf</argument>
-								
+
 								<argument>
-									${dist}/Encode2-mac-aarch64.tar.gz
+									${dist}/compress/Encode2-Mac.tar.gz
 								</argument>
-								
+
 								<argument>-C</argument>
 								<argument>${dist}</argument>
-								<argument>mac/aarch64</argument>
-							
+								<argument>package/mac</argument>
+
 							</arguments>
-						
+
 						</configuration>
-						
+
 					</execution>
 
 				</executions>

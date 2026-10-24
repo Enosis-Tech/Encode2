@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<?import dev.reymon.graphics.javafx.*?>
+
+<BorderPane xmlns:fx="https://javafx.com/fxml">
+
+	<top>
+		<fx:include fx:id="MenuBar" source="MenuBar.fxml"/>
+	</top>
+
+</BorderPane>
