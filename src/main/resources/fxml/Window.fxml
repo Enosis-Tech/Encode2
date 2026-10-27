@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<?import dev.reymon.graphics.javafx.*?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.control.TabPane?>
+
+<BorderPane xmlns:fx="https://javafx.com/fxml"
+	fx:controller="com.github.enosisTech.MainController"
+	stylesheets="@../themes/theme.css">
+
+	<top>
+		<fx:include fx:id="MenuBar" source="MenuBar.fxml" />
+	</top>
+
+	<left>
+		<TreeView fx:id="fileTreeView" prefWidth="280" minWidth="200"
+			showRoot="false" />
+	</left>
+
+	<right>
+		<TabPane fx:id="editorTabPane" tabClosingPolicy="ALL_TABS"
+			styleClass="editor-tab-pane" />
+	</right>
+</BorderPane>

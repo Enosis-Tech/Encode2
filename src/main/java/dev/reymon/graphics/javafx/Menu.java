@@ -13,17 +13,17 @@ public class Menu extends javafx.scene.control.Menu {
 	public Menu() {
 		super();
 	}
-	
+
 	public Menu(String translate, TRJavafxOption option) {
-		
-		switch(option) {
-		
+
+		switch (option) {
+
 		case BIND:
 			this.textProperty().bind(TRJavafx.bind(translate));
 			break;
-		
+
 		}
-		
+
 	}
 
 	public Menu(String text, Node graphic, MenuItem... items) {

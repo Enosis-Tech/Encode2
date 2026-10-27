@@ -1,0 +1,20 @@
+.root {
+    -color-primary:    #2B303B;
+    -color-secondary:  #313845;
+    -color-bg:         #1E222A;
+    -color-title:      #262B35;
+    -color-border:     #3A4150;
+    -color-text:       #D8DEE9;
+    -color-text-muted: #7A8699;
+    -color-hover:      #3A4250;
+    -color-selected:   #4C566A;
+
+    -color-editor-bg:        #1E222A;
+    -color-editor-fg:        #D8DEE9;
+    -color-editor-lineno:    #5A6473;
+    -color-token-keyword:    #C792EA;
+    -color-token-string:     #C3E88D;
+    -color-token-comment:    #6B7A8F;
+    -color-token-number:     #F78C6C;
+    -color-token-annotation: #82AAFF;
+}
