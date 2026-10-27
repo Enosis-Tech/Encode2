@@ -34,11 +34,11 @@ public class MenuBar extends javafx.scene.control.MenuBar {
 	/**
 	 * Methods
 	 */
-	
-	public void add(Menu...menus) {
+
+	public void add(Menu... menus) {
 		this.getMenus().addAll(menus);
 	}
-	
+
 	public void add(Supplier<List<Menu>> list) {
 		this.getMenus().addAll(list.get());
 	}

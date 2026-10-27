@@ -2,34 +2,28 @@
 
 <?import dev.reymon.graphics.javafx.*?>
 
+<MenuBar xmlns:fx="https://javafx.com/fxml"
+    fx:controller="com.github.enosisTech.MenuBarController">
 
-<MenuBar xmlns:fx="https://javafx.com/fxml" fx:controller="com.github.enosisTech.MenuBarController">
+    <Menu fx:id="file">
+        <MenuItem fx:id="openFile" />
+        <MenuItem fx:id="closeFile" />
+        <MenuItem fx:id="saveFile" />
+        <MenuItem fx:id="saveAsFile" />
+        <MenuItem fx:id="closeTab" />
+    </Menu>
 
-	<Menu fx:id="file">
-		
-		<MenuItem fx:id="openFile" onAction="#openAction"/>
-		<MenuItem fx:id="closeFile" onAction="#closeAction"/>
-		
-	</Menu>
-	
-	<Menu fx:id="setting">
-	
-		<Menu fx:id="languageSetting">
-			
-			<MenuItem fx:id="es"/>
-			<MenuItem fx:id="en"/>
-			<MenuItem fx:id="el"/>
-			<MenuItem fx:id="de"/>
-			
-		</Menu>
-	
-	</Menu>
-	
-	<Menu fx:id="help">
-		
-		<MenuItem fx:id="supportHelp"/>
-		<MenuItem fx:id="exitHelp"/>
-		
-	</Menu>
+    <Menu fx:id="setting">
+        <Menu fx:id="languageSetting">
+            <MenuItem fx:id="es" />
+            <MenuItem fx:id="en" />
+            <MenuItem fx:id="el" />
+            <MenuItem fx:id="de" />
+        </Menu>
+    </Menu>
 
+    <Menu fx:id="help">
+        <MenuItem fx:id="supportHelp" />
+        <MenuItem fx:id="exitHelp" />
+    </Menu>
 </MenuBar>

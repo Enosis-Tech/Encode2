@@ -1,0 +1,65 @@
+/* Estructura que NO cambia entre temas. Los colores vienen del theme.css */
+.root {
+    -fx-font-family: "Segoe UI", "Inter", "Helvetica Neue", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -color-bg;
+}
+
+.menu-bar {
+    -fx-background-color: -color-title;
+    -fx-padding: 3 8 3 8;
+    -fx-border-color: transparent transparent -color-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.menu-bar .label { -fx-text-fill: -color-text; -fx-font-weight: 600; }
+
+.context-menu {
+    -fx-background-color: -color-secondary;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: -color-border;
+    -fx-border-width: 1;
+    -fx-padding: 6;
+}
+
+.menu-item:focused, .menu-item:hover { -fx-background-color: -color-hover; }
+.menu-item .label { -fx-text-fill: -color-text; }
+
+.tree-view {
+    -fx-background-color: -color-primary;
+    -fx-padding: 8 4 8 4;
+    -fx-border-color: -color-border;
+    -fx-border-width: 0 1 0 0;
+}
+
+.tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -color-text;
+    -fx-padding: 5 10 5 6;
+    -fx-background-radius: 6;
+    -fx-graphic-text-gap: 8;
+}
+
+.tree-cell:hover    { -fx-background-color: -color-hover; }
+.tree-cell:selected { -fx-background-color: -color-selected; -fx-font-weight: 600; }
+
+.tree-cell .tree-disclosure-node .arrow { -fx-background-color: -color-text-muted; }
+.tree-cell:selected .tree-disclosure-node .arrow { -fx-background-color: -color-text; }
+
+/* Editor */
+.code-area {
+    -fx-background-color: -color-editor-bg;
+    -fx-font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+    -fx-font-size: 13px;
+}
+
+.code-area .text      { -fx-fill: -color-editor-fg; }
+.code-area .lineno    { -fx-text-fill: -color-editor-lineno; }
+
+/* Tokens de sintaxis — colores vienen del tema */
+.code-area .keyword    { -fx-fill: -color-token-keyword; -fx-font-weight: bold; }
+.code-area .string     { -fx-fill: -color-token-string; }
+.code-area .comment    { -fx-fill: -color-token-comment; -fx-font-style: italic; }
+.code-area .number     { -fx-fill: -color-token-number; }
+.code-area .annotation { -fx-fill: -color-token-annotation; }

@@ -8,4 +8,6 @@ open module Encode2 {
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;
 	requires transitive javafx.fxml;
+	requires org.fxmisc.richtext;
+
 }

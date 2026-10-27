@@ -8,17 +8,17 @@ public class MenuItem extends javafx.scene.control.MenuItem {
 
 	public MenuItem() {
 	}
-	
+
 	public MenuItem(String text, TRJavafxOption option) {
-		
-		switch(option) {
-		
+
+		switch (option) {
+
 		case BIND:
 			this.textProperty().bind(TRJavafx.bind(text));
 			break;
-		
+
 		}
-		
+
 	}
 
 	public MenuItem(String text) {
