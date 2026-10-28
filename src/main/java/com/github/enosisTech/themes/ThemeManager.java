@@ -1,13 +1,12 @@
 package com.github.enosisTech.themes;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @brief Singleton que gestiona el tema activo de la aplicación.
@@ -28,6 +27,8 @@ public class ThemeManager {
 	private final ObjectProperty<Theme> currentTheme = new SimpleObjectProperty<>();
 	/// Lista de temas registrados.
 	private final List<Theme> availableThemes = new ArrayList<>();
+	
+	@SuppressWarnings("unused")
 	/// Escena a la que se le aplicará el CSS del tema.
 	private Scene scene;
 

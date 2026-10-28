@@ -66,7 +66,7 @@ public class EditorManager {
 			// Cerrar pestaña
 			tab.setOnClosed(_ -> openTabs.remove(key));
 			// Si el editor está "sucio", marcar pestaña
-			editor.dirtyProperty().addListener((obs, oldV, newV) -> {
+			editor.dirtyProperty().addListener((_, _, newV) -> {
 				String title = file.getName() + (newV ? " *" : "");
 				tab.setText(title);
 			});

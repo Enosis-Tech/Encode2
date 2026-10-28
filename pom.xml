@@ -19,7 +19,7 @@
 		<app.module>Encode2</app.module>
 		<app.main>com.github.enosisTech.Encode2</app.main>
 		<dist>${project.build.directory}/dist</dist>
-		<modues.dir>${project.build.directory}/modules}</modues.dir>
+		<modules.dir>${project.build.directory}/modules</modules.dir>
 
 		<jdk.linux>${project.basedir}/jdk/linux/x64/jmods</jdk.linux>
 		<jdk.win>${project.basedir}/jdk/windows/x64/jmods</jdk.win>
@@ -30,8 +30,11 @@
 		<jfx.mac>${project.basedir}/jmods/javafx/mac/x64</jfx.mac>
 		<jfx.macarm>${project.basedir}/jmods/javafx/mac/aarch64</jfx.macarm>
 
-		<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
-		<jpackage.exe>${project.basedir}/jdk/linux/x64/bin/jpackage</jpackage.exe>
+		<module.richtext>org.fxmisc.richtext</module.richtext>
+
+		<jdkdir>${project.basedir}/jdk/linux/x64</jdkdir>
+		<jlink.exe>${jdkdir}/bin/jlink</jlink.exe>
+		<jpackage.exe>${jdkdir}/bin/jpackage</jpackage.exe>
 	</properties>
 
 	<dependencies>
@@ -40,33 +43,48 @@
 			<artifactId>richtextfx</artifactId>
 			<version>0.11.7</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-base</artifactId>
-			<version>25</version>
+			<version>${javafx.version}</version>
+			<classifier>${javafx.platform}</classifier>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>25</version>
+			<version>${javafx.version}</version>
+			<classifier>${javafx.platform}</classifier>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
-			<version>25</version>
+			<version>${javafx.version}</version>
+			<classifier>${javafx.platform}</classifier>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>25</version>
+			<version>${javafx.version}</version>
+			<classifier>${javafx.platform}</classifier>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
 
 	<profiles>
+
+		<!--
+		#######################################
+		### Profile for compiling for Linux ###
+		#######################################
+		-->
 
 		<profile>
 
@@ -81,11 +99,19 @@
 
 			<properties>
 				<javafx.platform>linux</javafx.platform>
-				<jlink.exe>${project.basedir}/jdk/linux/x64/bin/jlink</jlink.exe>
-				<jpackage.exe>${project.basedir}/jdk/linux/x64/bin/jpackage</jpackage.exe>
+				
+				<jdkdir>${project.basedir}/jdk/linux/x64</jdkdir>
+				<jlink.exe>${jdkdir}/bin/jlink</jlink.exe>
+				<jpackage.exe>${jdkdir}/bin/jpackage</jpackage.exe>
 			</properties>
 
 		</profile>
+
+		<!--
+		#########################################
+		### Profile for compiling for Windows ###
+		#########################################
+		-->
 
 		<profile>
 
@@ -99,14 +125,19 @@
 
 			<properties>
 				<javafx.platform>win</javafx.platform>
-				<jlink.exe>${project.basedir}/jdk/windows/x64/bin/jlink.exe</jlink.exe>
-
-				<jpackage.exe>
-					${project.basedir}/jdk/windows/x64/bin/jpackage.exe
-				</jpackage.exe>
+				
+				<jdkdir>${project.basedir}/jdk/windows/x64</jdkdir>
+				<jlink.exe>${jdkdir}/bin/jlink</jlink.exe>
+				<jpackage.exe>${jdkdir}/bin/jpackage</jpackage.exe>
 			</properties>
 
 		</profile>
+
+		<!--
+		########################################################
+		### Profile for compiling for Mac with ARM procesors ###
+		########################################################
+		-->
 
 		<profile>
 
@@ -120,13 +151,9 @@
 			<properties>
 				<javafx.platform>mac-aarch64</javafx.platform>
 
-				<jlink.exe>
-					${project.basedir}/jdk/mac/aarch64/Contents/Home/bin/jlink
-				</jlink.exe>
-
-				<jpackage.exe>
-					${project.basedir}/jdk/mac/aarch64/Contents/Home/bin/jpackage
-				</jpackage.exe>
+				<jdkdir>${project.basedir}/jdk/mac/aarch64/Contents/Home</jdkdir>
+				<jlink.exe>${jdkdir}/bin/jlink</jlink.exe>
+				<jpackage.exe>${jdkdir}/bin/jpackage</jpackage.exe>
 			</properties>
 
 		</profile>
@@ -136,6 +163,12 @@
 
 	<build>
 		<plugins>
+
+			<!--
+			##########################
+			###	Copy for compiling ###
+			##########################
+			-->
 
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -158,9 +191,145 @@
 
 					</execution>
 				</executions>
-
 			</plugin>
 
+			<!--
+			##########################
+			###	Create Directories ###
+			##########################
+			-->
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+
+				<executions>
+
+					<execution>
+						<id>create-compress-dirs</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>run</goal>
+						</goals>
+
+						<configuration>
+							<target>
+								<mkdir dir="${dist}/Compress/Runtime" />
+								<mkdir dir="${dist}/Compress/Package" />
+							</target>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
+			<!--
+			##########################
+			###	Convert to modules ###
+			##########################
+			-->
+
+			<plugin>
+				<groupId>org.moditect</groupId>
+				<artifactId>moditect-maven-plugin</artifactId>
+				<version>1.2.2.Final</version>
+
+				<executions>
+					<execution>
+						<id>add-module-infos</id>
+						<phase>package</phase>
+
+						<goals>
+							<goal>add-module-info</goal>
+						</goals>
+
+						<configuration>
+							<outputDirectory>${modules.dir}</outputDirectory>
+							<overwriteExistingFiles>true</overwriteExistingFiles>
+
+							<jdepsExtraArgs>
+								<arg>--ignore-missing-deps</arg>
+							</jdepsExtraArgs>
+
+							<modules>
+
+								<module>
+									<artifact>
+										<groupId>org.fxmisc.wellbehaved</groupId>
+										<artifactId>wellbehavedfx</artifactId>
+										<version>0.3.3</version>
+									</artifact>
+
+									<moduleInfo>
+										<name>org.fxmisc.wellbehaved</name>
+										<exports>*;</exports>
+									</moduleInfo>
+								</module>
+
+								<module>
+									<artifact>
+										<groupId>org.reactfx</groupId>
+										<artifactId>reactfx</artifactId>
+										<version>2.0-M5</version>
+									</artifact>
+
+									<moduleInfo>
+										<name>org.reactfx</name>
+										<exports>*;</exports>
+									</moduleInfo>
+								</module>
+
+								<module>
+									<artifact>
+										<groupId>org.fxmisc.flowless</groupId>
+										<artifactId>flowless</artifactId>
+										<version>0.7.4</version>
+									</artifact>
+
+									<moduleInfo>
+										<name>org.fxmisc.flowless</name>
+										<exports>*;</exports>
+									</moduleInfo>
+								</module>
+
+								<module>
+									<artifact>
+										<groupId>org.fxmisc.undo</groupId>
+										<artifactId>undofx</artifactId>
+										<version>2.1.1</version>
+									</artifact>
+
+									<moduleInfo>
+										<name>org.fxmisc.undo</name>
+										<exports>*;</exports>
+									</moduleInfo>
+								</module>
+
+								<module>
+									<artifact>
+										<groupId>org.fxmisc.richtext</groupId>
+										<artifactId>richtextfx</artifactId>
+										<version>0.11.7</version>
+									</artifact>
+
+									<moduleInfo>
+										<name>org.fxmisc.richtext</name>
+										<exports>*;</exports>
+									</moduleInfo>
+								</module>
+
+							</modules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!--
+			###################################
+			### Create distribution formats ###
+			###################################
+			-->
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -177,7 +346,7 @@
 
 					<execution>
 
-						<id>jlink-linux</id>
+						<id>JLink-Linux-x64</id>
 						<phase>package</phase>
 
 						<goals>
@@ -191,7 +360,6 @@
 							<arguments>
 
 								<argument>--module-path</argument>
-
 								<argument>
 									${jdk.linux}${path.separator}${jfx.linux}${path.separator}${project.build.directory}/${project.build.finalName}.jar${path.separator}${modules.dir}
 								</argument>
@@ -229,7 +397,7 @@
 
 					<execution>
 
-						<id>jlink-windows</id>
+						<id>JLink-Windows-x64</id>
 						<phase>package</phase>
 
 						<goals>
@@ -281,7 +449,7 @@
 
 					<execution>
 
-						<id>jlink-mac-aarch64</id>
+						<id>JLink-Mac-aarch64</id>
 						<phase>package</phase>
 
 						<goals>
@@ -333,14 +501,13 @@
 
 					<execution>
 
-						<id>jpackage-linux-deb</id>
+						<id>JPackage-Linux-Debian-x64</id>
 
 						<goals>
 							<goal>exec</goal>
 						</goals>
 
 						<configuration>
-
 							<executable>${jpackage.exe}</executable>
 
 							<arguments>
@@ -374,7 +541,7 @@
 
 					<execution>
 
-						<id>jpackage-linux-rpm</id>
+						<id>JPackage-Linux-RedHat-x64</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -422,7 +589,7 @@
 
 					<execution>
 
-						<id>jpackage-windows-msi</id>
+						<id>JPackage-Windows-Microsoft-Installer-x64</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -463,7 +630,7 @@
 
 					<execution>
 
-						<id>jpackage-widnows-exe</id>
+						<id>JPackage-Windows-Executable-x64</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -510,14 +677,13 @@
 
 					<execution>
 
-						<id>jpackage-mac-dmg</id>
+						<id>JPackage-Mac-DMG-aarch64</id>
 
 						<goals>
 							<goal>exec</goal>
 						</goals>
 
 						<configuration>
-
 							<executable>${jpackage.exe}</executable>
 
 							<arguments>
@@ -551,7 +717,7 @@
 
 					<execution>
 
-						<id>jpackage-mac-pkg</id>
+						<id>JPackage-Mac-PKG-aarch64</id>
 
 						<goals>
 							<goal>exec</goal>
@@ -591,57 +757,52 @@
 					</execution>
 
 					<!-- 
-					**********************************
-					***	Compress Packages of Linux ***
-					**********************************
+					********************************
+					***	Package Runtime of Linux ***
+					********************************
 					-->
 
 					<execution>
-
-						<id>compress-packages-linux</id>
+						<id>Compress-Linux-Runtime</id>
+						<phase>package</phase>
 
 						<goals>
 							<goal>exec</goal>
 						</goals>
 
 						<configuration>
-
 							<executable>tar</executable>
 
 							<arguments>
 
 								<argument>-czf</argument>
-
 								<argument>
-									${dist}/compress/Encode2-Linux.tar.gz
+									${dist}/Compress/Runtime/Encode2-Linux-Runtime.tar.gz
 								</argument>
 
 								<argument>-C</argument>
-								<argument>${dist}</argument>
-								<argument>package/linux</argument>
+								<argument>${dist}/linux</argument>
+								<argument>x64/</argument>
 
 							</arguments>
-
 						</configuration>
-
 					</execution>
 
 					<!-- 
-					************************************
-					***	Compress Packages of Windows ***
-					************************************
+					********************************
+					***	Compress Windows Runtime ***
+					********************************
 					-->
 
 					<execution>
-
-						<id>compress-packages-windows</id>
+						<id>Compress-Windows-Runtime</id>
+						<phase>package</phase>
 
 						<goals>
 							<goal>exec</goal>
 						</goals>
 
 						<configuration>
-
 							<executable>${java.home}/bin/jar</executable>
 
 							<arguments>
@@ -649,61 +810,147 @@
 								<argument>--create</argument>
 								<argument>--no-manifest</argument>
 								<argument>--file</argument>
-
 								<argument>
-									${dist}/compress/Encode2-Windows.zip
+									${dist}/Compress/Runtime/Encode2-Windows-Runtime.zip
 								</argument>
 
 								<argument>-C</argument>
-
-								<argument>${dist}</argument>
-								<argument>package/windows</argument>
+								<argument>${dist}/windows</argument>
+								<argument>x64/</argument>
 
 							</arguments>
-
 						</configuration>
-
 					</execution>
 
 					<!-- 
-					**********************************
-					***	Compress Packages of MacOS ***
-					**********************************
+					****************************
+					***	Compress Mac Runtime ***
+					****************************
 					-->
 
 					<execution>
-
-						<id>compress-packages-mac</id>
+						<id>Compress-Mac-Runtime</id>
+						<phase>package</phase>
 
 						<goals>
 							<goal>exec</goal>
 						</goals>
 
 						<configuration>
-
 							<executable>tar</executable>
 
 							<arguments>
-								<argument>-czf</argument>
 
+								<argument>-czf</argument>
 								<argument>
-									${dist}/compress/Encode2-Mac.tar.gz
+									${dist}/Compress/Runtime/Encode2-Mac-Runtime.tar.gz
 								</argument>
 
 								<argument>-C</argument>
-								<argument>${dist}</argument>
-								<argument>package/mac</argument>
+								<argument>${dist}/mac</argument>
+								<argument>aarch64/</argument>
 
 							</arguments>
-
 						</configuration>
+					</execution>
 
+					<!--
+					***********************************
+					***	Compress Packages for Linux ***
+					***********************************
+					-->
+
+					<execution>
+						<id>Compress-Linux-Package</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+							<executable>tar</executable>
+
+							<arguments>
+
+								<argument>-czf</argument>
+								<argument>
+									${dist}/Compress/Package/Encode2-Linux.tar.gz
+								</argument>
+
+								<argument>-C</argument>
+								<argument>${dist}/package</argument>
+								<argument>linux/</argument>
+
+							</arguments>
+						</configuration>
+					</execution>
+
+					<!--
+					*************************************
+					***	Compress Packages for Windows ***
+					*************************************
+					-->
+
+					<execution>
+						<id>Compress-Windows-Package</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+							<executable>${java.home}/bin/jar</executable>
+
+							<arguments>
+
+								<argument>--create</argument>
+								<argument>--no-manifest</argument>
+								<argument>--file</argument>
+								<argument>
+									${dist}/Compress/Package/Encode2-Windows.zip
+								</argument>
+
+								<argument>-C</argument>
+								<argument>${dist}/package</argument>
+								<argument>windows/</argument>
+
+							</arguments>
+						</configuration>
+					</execution>
+
+					<!--
+					*********************************
+					***	Compress Packages for Mac ***
+					*********************************
+					-->
+
+					<execution>
+						<id>Compress-Mac-Package</id>
+
+						<goals>
+							<goal>exec</goal>
+						</goals>
+
+						<configuration>
+							<executable>tar</executable>
+
+							<arguments>
+
+								<argument>-czf</argument>
+								<argument>
+									${dist}/Compress/Package/Encode2-Mac.tar.gz
+								</argument>
+
+								<argument>-C</argument>
+								<argument>${dist}/package</argument>
+								<argument>mac/</argument>
+
+							</arguments>
+						</configuration>
 					</execution>
 
 				</executions>
-
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

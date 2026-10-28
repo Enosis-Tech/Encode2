@@ -70,7 +70,8 @@ public class Encode2 extends Application {
 
 		Scene scene = new Scene(root, 1000, 650);
 		scene.getStylesheets().add(getClass().getResource("/themes/theme.css").toExternalForm());
-
+		
+		primaryStage.setScene(scene);
 		primaryStage.setTitle("Encode");
 		primaryStage.setMinWidth(720);
 		primaryStage.setMinHeight(480);

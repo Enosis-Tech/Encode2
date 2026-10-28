@@ -1,16 +1,15 @@
 package com.github.enosisTech;
 
+import java.io.File;
+
 import com.github.enosisTech.editor.EditorManager;
-import dev.reymon.graphics.javafx.MenuItem;
 
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.stage.Window;
-
-import java.io.File;
 
 /**
  * @brief Controlador principal de la ventana del editor.
@@ -37,6 +36,8 @@ public class MainController {
 
 	/// Gestor de pestañas/edición.
 	private EditorManager editorManager;
+	
+	@SuppressWarnings("unused")
 	/// Servicios del host (para acciones externas).
 	private HostServices hostServices;
 

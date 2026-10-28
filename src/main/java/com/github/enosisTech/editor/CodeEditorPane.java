@@ -126,7 +126,7 @@ public class CodeEditorPane extends javafx.scene.layout.BorderPane {
 		codeArea.getStyleClass().add("code-area");
 
 		// Resaltado reactivo
-		codeArea.textProperty().addListener((obs, oldText, newText) -> {
+		codeArea.textProperty().addListener((_, _, newText) -> {
 			codeArea.setStyleSpans(0, computeHighlighting(newText));
 			dirty.set(!newText.equals(originalContent));
 		});

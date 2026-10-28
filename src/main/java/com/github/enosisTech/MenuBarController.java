@@ -28,33 +28,30 @@ import java.io.File;
  * @see MainController
  */
 public class MenuBarController {
+	
 	/// Servicios del host (mail, urls, etc.).
 	private HostServices hostServices;
+	
 	/// Ventana propietaria para diálogos.
 	private Window ownerWindow;
+	
 	/// Gestor del editor (pestañas y guardado).
 	private EditorManager editorManager;
+	
 	/// Controlador principal para operaciones de carpeta.
 	private MainController mainController;
 
-	@FXML
-	private Menu file;
-	@FXML
-	private MenuItem openFile, closeFile;
-	@FXML
-	private MenuItem saveFile, saveAsFile, closeTab;
+	@FXML private Menu file;
+	@FXML private MenuItem openFile, closeFile;
+	@FXML private MenuItem saveFile, saveAsFile, closeTab;
 
-	@FXML
-	private Menu setting;
-	@FXML
-	private Menu languageSetting;
-	@FXML
-	private MenuItem es, en, el, de;
+	@FXML private Menu setting;
+	@FXML private Menu languageSetting;
+	@FXML private MenuItem es, en, el, de;
 
-	@FXML
-	private Menu help;
-	@FXML
-	private MenuItem supportHelp, exitHelp;
+	@FXML private Menu help;
+	@FXML private MenuItem supportHelp;
+	@FXML private MenuItem exitHelp;
 
 	/**
 	 * @brief Inicialización del controlador (invocada por FXML).
@@ -62,7 +59,7 @@ public class MenuBarController {
 	 *        - Enlaza los textos de los menús a las claves i18n de TRJavafx. -
 	 *        Registra los manejadores de acción de cada \c MenuItem.
 	 */
-	@FXML
+	
 	public void initialize() {
 
 		file.textProperty().bind(TRJavafx.bind("MenuBar.File"));
@@ -124,7 +121,7 @@ public class MenuBarController {
 
 	/**
 	 * @brief Guarda como... (aún no implementado).
-	 * @todo Fase 3: implementar \c FileChooser + reescritura.
+	 * TODO Fase 3: implementar \c FileChooser + reescritura.
 	 */
 	private void saveAsCurrent() {
 		// TODO: fase 3: fileChooser + reescribir

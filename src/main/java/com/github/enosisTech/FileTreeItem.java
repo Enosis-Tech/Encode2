@@ -1,15 +1,12 @@
 package com.github.enosisTech;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 /**
  * @brief Item de árbol (\c TreeItem<File>) con carga perezosa (lazy) de hijos.
