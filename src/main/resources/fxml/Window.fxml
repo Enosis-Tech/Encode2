@@ -5,8 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 
 <BorderPane xmlns:fx="https://javafx.com/fxml"
-	fx:controller="com.github.enosisTech.MainController"
-	stylesheets="@../themes/theme.css">
+	fx:controller="com.github.enosisTech.MainController">
 
 	<top>
 		<fx:include fx:id="MenuBar" source="MenuBar.fxml" />

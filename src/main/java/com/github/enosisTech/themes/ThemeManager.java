@@ -27,7 +27,7 @@ public class ThemeManager {
 	private final ObjectProperty<Theme> currentTheme = new SimpleObjectProperty<>();
 	/// Lista de temas registrados.
 	private final List<Theme> availableThemes = new ArrayList<>();
-	
+
 	@SuppressWarnings("unused")
 	/// Escena a la que se le aplicará el CSS del tema.
 	private Scene scene;
@@ -58,6 +58,55 @@ public class ThemeManager {
 		availableThemes.add(
 				new Theme("dark", "Oscuro", "/themes/dark/theme.css", Map.of("folder", "/themes/dark/icons/folder.svg",
 						"folder-open", "/themes/dark/icons/folder-open.svg", "file", "/themes/dark/icons/file.svg")));
+	}
+
+	/**
+	 * @brief Aplica un tema a la escena actual
+	 * @param theme Tema a aplicar
+	 */
+	public void appyTheme(Theme theme) {
+		if (theme == null || scene == null)
+			return;
+
+		String base = getClass().getResource("/themes/base.css").toExternalForm();
+		String themeCss = getClass().getResource(theme.cssPath()).toExternalForm();
+		scene.getStylesheets().setAll(base, themeCss);
+		currentTheme.set(theme);
+	}
+
+	/*
+	 * @brief Enganch a la escena sobre la que se aplicará el tema.
+	 * 
+	 * @param scene Escena principal
+	 */
+	public void attach(Scene scene) {
+		this.scene = scene;
+		appyTheme(currentTheme.get());
+	}
+
+	/**
+	 * @brief Busca un tema por su id
+	 * @param id Identificador del tema
+	 * @return Tema encontrado o \c null
+	 */
+	public Theme findById(String id) {
+		return availableThemes.stream().filter(t -> t.id().equals(id)).findFirst().orElse(null);
+	}
+
+	/**
+	 * @brief Lista de temas disponibles (solo para lectura)
+	 * @return Copia de la lista
+	 */
+	public List<Theme> getAviableThemes() {
+		return List.copyOf(availableThemes);
+	}
+
+	/**
+	 * @brief Propiedad observable del tema actual
+	 * @return Propiedad del tama activo
+	 */
+	public ObjectProperty<Theme> currentThemeProperty() {
+		return currentTheme;
 	}
 
 	/**

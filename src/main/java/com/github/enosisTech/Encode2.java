@@ -1,5 +1,7 @@
 package com.github.enosisTech;
 
+import com.github.enosisTech.themes.ThemeManager;
+
 import dev.reymon.graphics.javafx.Scene;
 import dev.reymon.lang.TRJavafx;
 
@@ -69,8 +71,7 @@ public class Encode2 extends Application {
 			menu.setMainController(main);
 
 		Scene scene = new Scene(root, 1000, 650);
-		scene.getStylesheets().add(getClass().getResource("/themes/theme.css").toExternalForm());
-		
+		ThemeManager.getInstance().attach(scene);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Encode");
 		primaryStage.setMinWidth(720);

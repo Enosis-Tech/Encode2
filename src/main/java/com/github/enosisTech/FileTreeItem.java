@@ -37,6 +37,11 @@ public class FileTreeItem extends TreeItem<File> {
 	 */
 	public FileTreeItem(File file) {
 		super(file);
+		expandedProperty().addListener((_, _, _) -> {
+			// Forzar refresco visual del árbol
+			// (no podemos tocar la celda desde aquí sin referencia al TreeView)
+		});
+
 	}
 
 	/**

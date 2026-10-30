@@ -1,29 +1,148 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <?import dev.reymon.graphics.javafx.*?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 
 <MenuBar xmlns:fx="https://javafx.com/fxml"
-    fx:controller="com.github.enosisTech.MenuBarController">
+	fx:controller="com.github.enosisTech.MenuBarController">
 
-    <Menu fx:id="file">
-        <MenuItem fx:id="openFile" />
-        <MenuItem fx:id="closeFile" />
-        <MenuItem fx:id="saveFile" />
-        <MenuItem fx:id="saveAsFile" />
-        <MenuItem fx:id="closeTab" />
-    </Menu>
+	<!-- Archivo -->
+	<Menu fx:id="file">
+		<MenuItem fx:id="newFile" />
+		<MenuItem fx:id="newProject" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="openFile" />
+		<MenuItem fx:id="openProject" />
+		<MenuItem fx:id="closeFile" />
+		<MenuItem fx:id="closeTab" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="saveFile" />
+		<MenuItem fx:id="saveAsFile" />
+		<MenuItem fx:id="saveAll" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="recentFiles" />
+		<MenuItem fx:id="exitApp" />
+	</Menu>
 
-    <Menu fx:id="setting">
-        <Menu fx:id="languageSetting">
-            <MenuItem fx:id="es" />
-            <MenuItem fx:id="en" />
-            <MenuItem fx:id="el" />
-            <MenuItem fx:id="de" />
-        </Menu>
-    </Menu>
+	<!-- Editar -->
+	<Menu fx:id="edit">
+		<MenuItem fx:id="undo" />
+		<MenuItem fx:id="redo" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="cut" />
+		<MenuItem fx:id="copy" />
+		<MenuItem fx:id="paste" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="find" />
+		<MenuItem fx:id="replace" />
+		<MenuItem fx:id="goToLine" />
+		<MenuItem fx:id="formatCode" />
+	</Menu>
 
-    <Menu fx:id="help">
-        <MenuItem fx:id="supportHelp" />
-        <MenuItem fx:id="exitHelp" />
-    </Menu>
+	<!-- Compilar / build  -->
+	<Menu fx:id="build">
+		<MenuItem fx:id="buildProject" />
+		<MenuItem fx:id="rebuildProject" />
+		<MenuItem fx:id="cleanProject" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="buildConfigCOBOL" />
+		<MenuItem fx:id="buildConfigAda" />
+		<MenuItem fx:id="buildConfigFortran" />
+		<MenuItem fx:id="buildConfigPLI" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="runProject" />
+		<MenuItem fx:id="stopProject" />
+	</Menu>
+
+	<!-- Depurar -->
+	<Menu fx:id="debug">
+		<MenuItem fx:id="startDebug" />
+		<MenuItem fx:id="stopDebug" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="stepOver" />
+		<MenuItem fx:id="stepInto" />
+		<MenuItem fx:id="stepOut" />
+		<MenuItem fx:id="continueExecution" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="toggleBreakpoint" />
+		<MenuItem fx:id="breakpointManager" />
+		<MenuItem fx:id="watchVariables" />
+		<MenuItem fx:id="callStack" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="debugConsole" />
+	</Menu>
+
+	<!-- Herramientas -->
+	<Menu fx:id="tools">
+		<MenuItem fx:id="compilerSettings" />
+		<MenuItem fx:id="runtimeSettings" />
+		<MenuItem fx:id="projectStructure" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="lineEndingCRLF" />
+		<MenuItem fx:id="lineEndingLF" />
+		<MenuItem fx:id="columnRuler" />
+		<MenuItem fx:id="encodingSettings" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="pluginManager" />
+		<MenuItem fx:id="terminal" />
+		<MenuItem fx:id="taskRunner" />
+	</Menu>
+
+	<!-- Ventana -->
+	<Menu fx:id="window">
+		<MenuItem fx:id="toggleFileTree" />
+		<MenuItem fx:id="toggleEditorPane" />
+		<MenuItem fx:id="toggleConsole" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="resetLayout" />
+		<MenuItem fx:id="fullScreen" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="newEditorSplit" />
+	</Menu>
+
+	<!-- Configuración -->
+	<Menu fx:id="setting">
+		<Menu fx:id="languageSetting">
+			<MenuItem fx:id="es" />
+			<MenuItem fx:id="en" />
+			<MenuItem fx:id="el" />
+			<MenuItem fx:id="de" />
+			<MenuItem fx:id="fr" />
+			<MenuItem fx:id="pt" />
+			<MenuItem fx:id="ja" />
+			<MenuItem fx:id="zh" />
+		</Menu>
+		<Menu fx:id="themeSetting">
+			<MenuItem fx:id="themeLight" />
+			<MenuItem fx:id="themeDark" />
+			<MenuItem fx:id="themeSolarizedLight" />
+			<MenuItem fx:id="themeSolarizedDark" />
+			<MenuItem fx:id="themeMonokai" />
+			<MenuItem fx:id="themeDracula" />
+			<MenuItem fx:id="themeHighContrast" />
+		</Menu>
+		<Menu fx:id="editorSetting">
+			<MenuItem fx:id="fontSize" />
+			<MenuItem fx:id="fontFamily" />
+			<MenuItem fx:id="tabSize" />
+			<MenuItem fx:id="wordWrap" />
+			<MenuItem fx:id="syntaxHighlighting" />
+			<MenuItem fx:id="autoIndent" />
+		</Menu>
+		<SeparatorMenuItem />
+		<MenuItem fx:id="keymaps" />
+		<MenuItem fx:id="preferences" />
+	</Menu>
+
+	<!-- Ayuda -->
+	<Menu fx:id="help">
+		<MenuItem fx:id="documentation" />
+		<MenuItem fx:id="shortcutsReference" />
+		<MenuItem fx:id="releaseNotes" />
+		<SeparatorMenuItem />
+		<MenuItem fx:id="supportHelp" />
+		<MenuItem fx:id="checkUpdates" />
+		<MenuItem fx:id="about" />
+		<MenuItem fx:id="exitHelp" />
+	</Menu>
 </MenuBar>
