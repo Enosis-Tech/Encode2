@@ -51,13 +51,13 @@ public class ThemeManager {
 	private void registerBuiltinThemes() {
 		// Tema claro
 		availableThemes.add(new Theme("light", "Claro", "/themes/light/theme.css",
-				Map.of("folder", "/themes/light/icons/folder.svg", "folder-open", "/themes/light/icons/folder-open.svg",
-						"file", "/themes/light/icons/file.svg")));
+				Map.of("folder", "/themes/light/icons/folder.png", "folder-open", "/themes/light/icons/folder-open.png",
+						"file", "/themes/light/icons/file.png")));
 
 		// Tema oscuro
 		availableThemes.add(
-				new Theme("dark", "Oscuro", "/themes/dark/theme.css", Map.of("folder", "/themes/dark/icons/folder.svg",
-						"folder-open", "/themes/dark/icons/folder-open.svg", "file", "/themes/dark/icons/file.svg")));
+				new Theme("dark", "Oscuro", "/themes/dark/theme.css", Map.of("folder", "/themes/dark/icons/folder.png",
+						"folder-open", "/themes/dark/icons/folder-open.png", "file", "/themes/dark/icons/file.png")));
 	}
 
 	/**

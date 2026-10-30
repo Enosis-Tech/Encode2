@@ -72,6 +72,7 @@ public class Encode2 extends Application {
 
 		Scene scene = new Scene(root, 1000, 650);
 		ThemeManager.getInstance().attach(scene);
+		
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Encode");
 		primaryStage.setMinWidth(720);

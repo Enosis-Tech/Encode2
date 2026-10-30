@@ -8,6 +8,7 @@ import com.github.enosisTech.themes.Theme;
 
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -141,8 +142,10 @@ public class MainController {
 			if (url == null)
 				return null;
 			ImageView iv = new ImageView(new Image(url.toExternalForm()));
-			iv.setFitWidth(16);
-			iv.setFitHeight(16);
+			iv.prefWidth(16);
+			iv.prefHeight(16);
+			//iv.setSmooth(true);
+			//iv.setPreserveRatio(true);
 			return iv;
 		} catch (Exception ex) {
 			return null;
